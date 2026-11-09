@@ -1,4 +1,4 @@
-# DeepSweep simulations: CMS component statistics for neutral and sweep replicates
+# DeepSweep simulations: selection statistics for neutral and sweep replicates
 
 This repository records exactly how the simulated training data were made,
 and lets anyone remake them on a Linux machine. One command builds the tools
