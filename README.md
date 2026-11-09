@@ -198,9 +198,8 @@ publicly available.
 |---|---|---|
 | genotypes | 1000 Genomes phase 3 release 20130502, `ALL.chr<N>.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz`, autosomes 1–22 (https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) [1] | GRCh37 |
 | genetic maps | pyrho per-population maps for the 26 phase 3 populations (https://github.com/popgenmethods/pyrho#human-recombination-maps; Zenodo 10.5281/zenodo.11437540, `hg19_maps.tar.gz`) [2, 3]; each site's cM is linearly interpolated from its own population's map | GRCh37 (hg19) |
-| ancestral alleles | `site.ancestral_state` of the unified tree sequences of 1000 Genomes, HGDP, SGDP and ancient genomes (Zenodo 10.5281/zenodo.5512994) [4], extracted by `AncestralSequence_trees.ipynb` (https://github.com/erin-n-gilbertson/3DGenome-diversity/blob/main/activeNotebooks/AncestralSequence_trees.ipynb) | the trees are GRCh38; the tables used carry both GRCh38 and GRCh37 positions |
-| GRCh38 → GRCh37 conversion of the ancestral alleles | **[PLACEHOLDER: liftover tool, chain file and filters]** | |
-| excluded rsIDs | **[PLACEHOLDER: source of the 11,963,907-ID exclusion list]** | |
+| ancestral alleles | `site.ancestral_state` of the unified tree sequences of 1000 Genomes, HGDP, SGDP and ancient genomes (Zenodo 10.5281/zenodo.5512994) [4], processed by E. Gilbertson's code (https://github.com/erin-n-gilbertson/3DGenome-diversity/blob/main/activeNotebooks/AncestralSequence_trees.ipynb), which also converted the coordinates between GRCh38 and GRCh37 | trees GRCh38; tables used carry GRCh37 positions (with the GRCh38 position alongside) |
+| excluded rsIDs | 11,963,907 historical rsIDs that have been merged into other rsIDs and are no longer used, from the NCBI dbSNP `RsMergeArch` table [5]. Records carrying them are removed during VCF conversion. The dbSNP build of the table was not recorded. | |
 
 The simulations use a different map: cosi2 draws each replicate's region from
 `models/test_recom.recom`. The pyrho maps are used only for the empirical
@@ -216,9 +215,9 @@ data.
 | SAS | BEB, GIH, ITU, PJL, STU |
 
 The four admixed American (AMR) populations, CLM, MXL, PEL and PUR, are
-excluded. Their recent, complex admixture is not represented in any of the
-simulated demographic models, so the model was not trained to identify
-sweeps in such populations.
+excluded. Their recent three-way admixture includes Indigenous American
+ancestry that none of the simulated demographic models represents, so the
+model was not trained to identify sweeps in such populations.
 
 Each target is compared with three outgroups: the core populations (YRI,
 CEU, CHB, BEB) outside its own superpopulation. A site is kept when the
@@ -230,6 +229,7 @@ target or any of its outgroups is polymorphic there.
 2. Spence, J.P. & Song, Y.S. Inference and analysis of population-specific fine-scale recombination maps across 26 diverse human populations. *Science Advances* 5, eaaw9206 (2019). doi:10.1126/sciadv.aaw9206
 3. Kamm, J.A., Spence, J.P., Chan, J. & Song, Y.S. Two-locus likelihoods under variable population size and fine-scale recombination rate estimation. *Genetics* 203, 1381–1399 (2016). doi:10.1534/genetics.115.184820
 4. Wohns, A.W. et al. A unified genealogy of modern and ancient genomes. *Science* 375, eabi8264 (2022). doi:10.1126/science.abi8264. Data: Zenodo, doi:10.5281/zenodo.5512994
+5. NCBI dbSNP, `RsMergeArch` table (merged rsIDs), https://www.ncbi.nlm.nih.gov/snp/
 
 ## 8. Layout
 
