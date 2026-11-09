@@ -251,6 +251,17 @@ norm_ihs_binom norm_delihh_binom max_xpehh`, defined as in section 1. The
 genome-wide reference is not neutral: it contains whatever selection the
 genome carries.
 
+**MAF > 0.01 filter.** Empirical data carry an excess of singletons and
+very rare variants, some of which may be sequencing errors. To keep the
+signal clean, the empirical tables used in practice keep only sites with
+`maf > 0.01` in the target population (`*.maf001.tsv.gz`).
+- The filter is applied after normalization, so every z-score equals the one
+  in the full table at the same site. Scores stay relative to the all-sites
+  genome-wide reference, and the bins are not rebuilt from the filtered rows.
+- It keeps 40–47% of rows in the seven African populations and 21–28% in the
+  other 15.
+- The simulated training corpus is not filtered.
+
 Memory: production used 64 GB per stats task and 25 GB per annotate task
 (chr1–2 are the largest), so on a PC set `workers` to what memory allows.
 
