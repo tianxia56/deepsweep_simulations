@@ -1,0 +1,28 @@
+{
+  "run_name": "production_2026oct",
+  "output_dir": "runs/production_2026oct",
+  "workers": 16,
+  "test": false,
+  "min_sites_per_bin": 5000,
+  "date": "2026-10-18",
+  "keep_sweep_tpeds": true,
+
+  "models": [
+    {"name": "gravel",       "pop_ids": [1, 2, 3],    "target_pops": [1, 2, 3],    "region_mb": [3, 5]},
+    {"name": "cousins",      "pop_ids": [5, 6],       "target_pops": [5, 6],       "region_mb": [3, 5]},
+    {"name": "medina-munoz", "pop_ids": [4, 5, 6, 7], "target_pops": [4, 5, 6, 7], "region_mb": [3, 5]},
+    {"name": "vitti_alpha",  "pop_ids": [1, 2, 3, 4], "target_pops": [1, 2, 3, 4], "region_mb": [3, 5]},
+    {"name": "vitti_beta",   "pop_ids": [1, 2, 3, 4], "target_pops": [1, 2, 3, 4], "region_mb": [3, 5]},
+    {"name": "vitti_gamma",  "pop_ids": [1, 2, 3, 4], "target_pops": [1, 2, 3, 4], "region_mb": [3, 5]}
+  ],
+
+  "reference_bins": {"n_sims": 7000, "seed_base": 31000000, "seed_step": 10000},
+
+  "neutral": {"n_sims_per_model_per_mb": 25000, "max_batch": 1000,
+              "seed_base": 1000000000, "seed_block": 20000},
+
+  "sweeps": {
+    "batch_table": "provenance/sweep_batches_2026oct.tsv",
+    "replay_sims": "provenance/sweep_sims_kept_2026oct.tsv"
+  }
+}

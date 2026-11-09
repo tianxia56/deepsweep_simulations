@@ -1,0 +1,60 @@
+# cosi2 parameter file generated from Demes
+# Command line args: ./cvt3.py --input models/m1-out-of-africa.yml --output c1-out-of-africa.yml
+# "selective_sweep": "pop_event sweep_mult_standing \"sweep\" 1 U(0, 5000) E(20) .5 .05-.95 5 U(0, 5000)"
+# pop used for computation:  [4, 5, 6, 7]
+length 5000000
+mutation_rate 1.25e-08
+recomb_file test_recom.recom
+gene_conversion_relative_rate 2.3
+#pop_define 1 ancestral
+#pop_size 1 6790
+#sample_size 1 0
+#pop_define 2 AMH
+#pop_size 2 13571
+#sample_size 2 0
+#pop_define 3 OOA
+#pop_size 3 917
+#sample_size 3 0
+pop_define 4 YRI
+pop_size 4 27142
+sample_size 4 172
+pop_define 5 IBS
+pop_size 5 26462
+sample_size 5 172
+pop_define 6 CHB
+pop_size 6 15364
+sample_size 6 172
+pop_define 7 MXB
+pop_size 7 38462
+sample_size 7 172
+# YRI 4 represents ancestral -> AMH -> YRI
+# IBS 5 represents OOA -> IBS
+# CHB 6 represents CHB
+# MXB 7 represents MXB
+pop_event change_size "const_ancestral_to_inf" 4 16670.9394 13580
+pop_event change_size "const_AMH" 4 3046.4706 27142
+pop_event split "split_YRI_to_OOA" 4 5 3046.4706
+pop_event split "split_OOA_to_CHB" 5 6 1764.3493
+pop_event split "split_CHB_to_MXB" 6 7 1122.5906
+pop_event change_size "const_OOA" 5 1764.3493 1835
+pop_event exp_change_size2 "exp_IBS_1764.3" 5 1 1764.3493 26462 2761
+pop_event exp_change_size2 "exp_CHB_1764.3" 6 1 1764.3493 15364 1955
+pop_event exp_change_size2 "exp_MXB_1764.3" 7 1 1122.5906 38462 1313
+pop_event migration_rate "mig_off_YRI_to_IBS" 4 5 1764.3492 0.0
+pop_event migration_rate "mig_off_IBS_to_YRI" 5 4 1764.3492 0.0
+pop_event migration_rate "mig_off_YRI_to_CHB" 4 6 1764.3491 0.0
+pop_event migration_rate "mig_off_CHB_to_YRI" 6 4 1764.3491 0.0
+pop_event migration_rate "mig_off_IBS_to_CHB" 5 6 1764.3490 0.0
+pop_event migration_rate "mig_off_CHB_to_IBS" 6 5 1764.3490 0.0
+pop_event migration_rate "mig_off_YRI_to_OOA" 4 5 3046 0.0
+pop_event migration_rate "mig_off_OOA_to_YRI" 5 4 3046 0.0
+pop_event migration_rate "mig_on_YRI_to_OOA" 4 5 1764.3489 0.00015859499514691533
+pop_event migration_rate "mig_on_OOA_to_YRI" 5 4 1764.3489 0.00015859499514691533
+pop_event migration_rate "mig_on_YRI_to_IBS" 4 5 0.0000 2.501606466512543e-05
+pop_event migration_rate "mig_on_IBS_to_YRI" 5 4 0.0000 2.501606466512543e-05
+pop_event migration_rate "mig_on_YRI_to_CHB" 4 6 0.0000 3.2948319408915263e-06
+pop_event migration_rate "mig_on_CHB_to_YRI" 6 4 0.0000 3.2948319408915263e-06
+pop_event migration_rate "mig_on_IBS_to_CHB" 5 6 0.0000 6.62400743683469e-05
+pop_event migration_rate "mig_on_CHB_to_IBS" 6 5 0.0000 6.62400743683469e-05
+#pop_event sweep_mult_standing "sweep" 1 U(0, 4000) E(20) .5 .05-.95 1 U(0, 4000)
+#pop_event sweep_mult "sweep" 4 U(500, 1000) E(20) .5 .05-.95

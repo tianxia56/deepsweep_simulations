@@ -1,0 +1,49 @@
+# https://www-nature-com.ezp-prod1.hul.harvard.edu/articles/nmeth.4606/figures/17 
+# https://www-ncbi-nlm-nih-gov.ezp-prod1.hul.harvard.edu/pubmed/21730125?dopt=Abstract #-> Table 2, Fig 4
+
+length 3000000
+mutation_rate 1.25e-08
+recomb_file test_recom.recom
+gene_conversion_relative_rate 2.3
+
+
+# population info
+pop_define 1 AFR
+pop_define 2 EUR
+pop_define 3 EAS
+
+pop_size 1 14474
+sample_size 1 200
+
+pop_size 2 35000
+sample_size 2 200
+
+pop_size 3 47200
+sample_size 3 200
+
+pop_event migration_rate "afr->eur migration" 1 2 0 .00003
+pop_event migration_rate "eur->afr migration" 2 1 0 .00003
+pop_event migration_rate "afr->as migration" 1 3 0 .000019
+pop_event migration_rate "as->afr migration" 3 1 0 .000019
+pop_event migration_rate "eur->as migration" 2 3 0 .000096
+pop_event migration_rate "as->eur migration" 3 2 0 .000096
+
+pop_event exp_change_size2 "agriculture - european" 2 0 919 35000 1032
+pop_event exp_change_size2 "agriculture - asian" 3 0 919 47200 554
+
+pop_event migration_rate "eur->afr migration" 2 1 919 .00025
+pop_event migration_rate "afr->eur migration" 1 2 919 .00025
+pop_event migration_rate "eur->as migration" 2 3 919 0
+pop_event migration_rate "as->eur migration" 3 2 919 0
+pop_event migration_rate "afr->as migration" 1 3 919 0
+pop_event migration_rate "as->afr migration" 3 1 919 0
+pop_event split "EAS/EUR" 2 3 920
+
+pop_event migration_rate "afr->eur migration" 1 2 2039 0
+pop_event migration_rate "eur->afr migration" 2 1 2039 0
+pop_event change_size "OoA size" 2 919 1861
+pop_event split "OOA" 1 2 2040
+
+pop_event change_size "african pop size" 1 5920 7300
+
+

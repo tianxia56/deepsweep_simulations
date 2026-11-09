@@ -1,0 +1,11 @@
+# Flipped (derived = 1) cosi2 TPEDs from the production binary, used by
+# check_env.sh to confirm a rebuilt coalescent reproduces the corpus.
+# neutral: models/gravel.par, seed 31000000 (= reference set gravel_3mb_pop1, sim 0)
+# sweep  : models/gravel.par + sweep line below, seed 3821012977
+#          (= production refill batch gravel 230210020445, sim 127; archived TPED)
+d3574ad50a97d5da26e1d1e62726d436  neutral_gravel_3mb_seed31000000_pop1.tped
+3347056c8adcd1074269cf42019b2609  neutral_gravel_3mb_seed31000000_pop2.tped
+ae3daa8bcdc37365eddace706a396841  neutral_gravel_3mb_seed31000000_pop3.tped
+d790461fff6f103eca77e36f8da2d388  sweep_gravel_3mb_pop2_seed3821012977_pop1.tped
+94ea2254c2571997de953eb9f7000575  sweep_gravel_3mb_pop2_seed3821012977_pop2.tped
+a8d9cd742ccebbe2c2f414b9988cf403  sweep_gravel_3mb_pop2_seed3821012977_pop3.tped

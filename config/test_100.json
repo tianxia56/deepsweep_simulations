@@ -1,0 +1,56 @@
+{
+  "_comment": [
+    "config.json with every n_sims lowered to 100, one model and one target pop;",
+    "min_sites_per_bin 50 (allowed only with test: true). Measured: 19 min on 4 cores."
+  ],
+  "run_name": "test_100",
+  "output_dir": "runs/test_100",
+  "workers": 4,
+  "test": true,
+  "min_sites_per_bin": 50,
+  "date": "test",
+  "keep_sweep_tpeds": true,
+  "models": [
+    {
+      "name": "gravel",
+      "pop_ids": [
+        1,
+        2,
+        3
+      ],
+      "target_pops": [
+        1
+      ],
+      "region_mb": [
+        3
+      ]
+    }
+  ],
+  "reference_bins": {
+    "n_sims": 100,
+    "seed_base": 31000000,
+    "seed_step": 10000
+  },
+  "neutral": {
+    "n_sims_per_model_per_mb": 100,
+    "max_batch": 1000,
+    "seed_base": 1000000000,
+    "seed_block": 20000
+  },
+  "sweeps": {
+    "template": "pop_event sweep_mult_standing \"sweep\" {pop} U(0, {age}) E(20) .5 {daf_window} {pop} U(0, {age})",
+    "max_batch": 1000,
+    "seed_base": 2147483648,
+    "seed_block": 16000,
+    "designs": [
+      {
+        "models": "all",
+        "region_mb": "all",
+        "target_pops": "all",
+        "age": 2100,
+        "daf_window": ".15-.85",
+        "n_sims": 100
+      }
+    ]
+  }
+}

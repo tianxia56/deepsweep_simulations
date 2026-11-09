@@ -1,0 +1,70 @@
+# COSI2 Demographic Model – “two‑lineage” convention
+# Deep human ancestry (Cousins et al. 2025)
+# --------------------------------------------------------------------
+# Global parameters
+# --------------------------------------------------------------------
+length 3000000
+mutation_rate 1.25e-8
+recomb_file test_recom.recom
+gene_conversion_relative_rate 2.3
+# --------------------------------------------------------------------
+# Population definitions
+# --------------------------------------------------------------------
+pop_define 1 MajLine
+pop_define 2 PopB
+pop_define 3 ArchaicNeanderthal
+pop_define 4 Denisovan
+pop_define 5 AfrLine
+pop_define 6 NonAfrican
+# --------------------------------------------------------------------
+# Present‑day diploid effective sizes
+# --------------------------------------------------------------------
+pop_size 1 0
+pop_size 2 0
+pop_size 3 0
+pop_size 4 0
+pop_size 5 20000
+pop_size 6 10000
+# --------------------------------------------------------------------
+# Sample sizes (haploid genomes)
+# --------------------------------------------------------------------
+sample_size 1 0
+sample_size 2 0
+sample_size 3 0
+sample_size 4 0
+sample_size 5 172
+sample_size 6 172
+# --------------------------------------------------------------------
+# Demographic events (times in generations before present)
+# --------------------------------------------------------------------
+# MajLine splits, creating PopB (~1.5 Ma)
+pop_event split "MajLine_to_PopB" 1 2 51724
+# Bottleneck in MajLine after split
+pop_event change_size "MajLine_bottleneck" 1 51723 2000
+# MajLine exponential growth (1.5 Ma → 290 ka)
+pop_event exp_change_size "MajLine_growth" 1 10000 51723 16000 2000
+# MajLine splits, creating ArchaicNeanderthal (~600 ka)
+pop_event split "MajLine_to_ArchaicNeand" 1 3 20690
+# ArchaicNeanderthal splits, creating Denisovan (~400 ka)
+pop_event split "ArchaicNeand_to_Denisovan" 3 4 13794
+# MajLine splits, creating AfrLine (~290 ka)
+pop_event split "MajLine_to_AfrLine" 1 5 10001
+# 20 % PopB ancestry into AfrLine at 290 ka
+pop_event admix "PopB_into_AfrLine" 5 2 10000 0.20
+# PopB absorbed (size 0) after admixture
+pop_event change_size "PopB_absorbed" 2 10000 0
+# AfrLine splits, creating NonAfrican (~60 ka)
+pop_event split "AfrLine_to_NonAfrican" 5 6 2069
+# Neanderthal introgression into NonAfricans (~50 ka)
+pop_event admix "Neand_into_NonAf" 6 3 1724 0.02
+# Denisovan introgression into NonAfricans (~45 ka)
+pop_event admix "Denis_into_NonAf" 6 4 1552 0.005
+# Neanderthal lineage extinction (~40 ka)
+pop_event change_size "Neand_extinct" 3 1380 0
+# Denisovan lineage extinction (~30 ka)
+pop_event change_size "Denis_extinct" 4 1034 0
+# MajLine ends after all splits completed (~60 ka)
+pop_event change_size "MajLine_ends" 1 2069 0
+# --------------------------------------------------------------------
+# End of model
+# --------------------------------------------------------------------

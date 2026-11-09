@@ -1,0 +1,154 @@
+{
+  "_comment": [
+    "Default run: production-scale numbers. To test on a laptop, lower the four n_sims",
+    "values (e.g. to 100), set min_sites_per_bin to 50 and test to true - config/test_100.json",
+    "is exactly that. config/production_2026oct.json regenerates the published corpus itself."
+  ],
+  "run_name": "default",
+  "output_dir": "runs/default",
+  "workers": 16,
+  "test": false,
+  "min_sites_per_bin": 5000,
+  "date": "2026-10-18",
+  "keep_sweep_tpeds": true,
+  "models": [
+    {
+      "name": "gravel",
+      "pop_ids": [
+        1,
+        2,
+        3
+      ],
+      "target_pops": [
+        1,
+        2,
+        3
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    },
+    {
+      "name": "cousins",
+      "pop_ids": [
+        5,
+        6
+      ],
+      "target_pops": [
+        5,
+        6
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    },
+    {
+      "name": "medina-munoz",
+      "pop_ids": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "target_pops": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    },
+    {
+      "name": "vitti_alpha",
+      "pop_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "target_pops": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    },
+    {
+      "name": "vitti_beta",
+      "pop_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "target_pops": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    },
+    {
+      "name": "vitti_gamma",
+      "pop_ids": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "target_pops": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "region_mb": [
+        3,
+        5
+      ]
+    }
+  ],
+  "reference_bins": {
+    "n_sims": 7000,
+    "seed_base": 31000000,
+    "seed_step": 10000,
+    "_comment": "neutral sims per (model, region, target pop) for the normalization bins"
+  },
+  "neutral": {
+    "n_sims_per_model_per_mb": 25000,
+    "max_batch": 1000,
+    "seed_base": 1000000000,
+    "seed_block": 20000,
+    "_comment": "scored neutral corpus, split evenly over a model's target pops"
+  },
+  "sweeps": {
+    "template": "pop_event sweep_mult_standing \"sweep\" {pop} U(0, {age}) E(20) .5 {daf_window} {pop} U(0, {age})",
+    "max_batch": 1000,
+    "seed_base": 2147483648,
+    "seed_block": 16000,
+    "_comment": "one entry per design; n_sims is per (model, region, target pop)",
+    "designs": [
+      {
+        "models": "all",
+        "region_mb": "all",
+        "target_pops": "all",
+        "age": 5000,
+        "daf_window": ".05-.95",
+        "n_sims": 24000
+      }
+    ]
+  }
+}
