@@ -175,6 +175,21 @@ recorded, so any such difference shows up in the outputs.
   - three reference-pool replicates.
 
   The reference data is in `tests/reference/`.
+- The empirical pipeline was checked against the 2026oct production files
+  for YRI chromosome 22 (with its outgroups CEU, CHB and BEB). This needs the
+  production intermediates (about 1.4 TB), so it is not shipped as a test.
+  Identical to production:
+  - the downloaded v5a VCF and panel (byte for byte), and the Zenodo pyrho
+    hg19 maps (every file);
+  - the converted maps (4 populations × 22 autosomes), the gap mask and the
+    chr22 ancestral alleles;
+  - the annotated TPED, `.hap` and `.map` of all four populations;
+  - the raw statistics, the per-pair XP-EHH tables and the exact-k arrays;
+  - the YRI genome-wide bin tables, rebuilt from the production raw arrays;
+  - the normalized chr22 table, the genome-wide YRI table, and its
+    `maf > 0.01` version (34,303,372 rows → 13,988,717).
+
+  The YRI chr22 run took 14.5 min on 4 cores.
 
 ## 6. Tools
 
@@ -184,26 +199,60 @@ recorded, so any such difference shows up in the outputs.
 | hapbin (`ihsbin`, `xpehhbin`) | `evotools/hapbin` commit `3babf68` | from source |
 | selscan | `szpiech/selscan` tag v3.0.0, `bin/linux/selscan` | prebuilt binary, md5-checked |
 | Python | 3.9.23, numpy 2.0.2, pandas 2.3.1 | conda (`env/environment.yml`) |
+| vcftools | 0.1.16, empirical pipeline only | conda (bioconda) |
 
 Changing any tool flag invalidates every bin table built with the old flags.
 Each `MANIFEST.txt` records the flags and versions used.
 
 ## 7. Empirical data: 1000 Genomes, GRCh37
 
-The model is applied to 1000 Genomes data. The empirical pipeline code is
-not in this repository yet; this section records its inputs. Every input is
-publicly available.
+The model is applied to 1000 Genomes data. The empirical pipeline computes
+the same nine statistics with the same tools, flags and formulas
+(`pipeline/cms_stats.py`), with two deliberate differences: the
+normalization reference is genome-wide empirical, built per population at
+its own n_hap, and the site list is the target plus its three outgroups.
+
+```bash
+bash empirical/download_inputs.sh inputs 22            # public inputs, chr22 only
+./run.sh --empirical config/empirical_test_chr22.json  # YRI, chr22
+bash empirical/download_inputs.sh                      # all autosomes
+./run.sh --empirical config/empirical.json             # 22 populations x 22 autosomes
+```
+
+Inputs (every one is publicly available):
 
 | input | source | build |
 |---|---|---|
-| genotypes | 1000 Genomes phase 3 release 20130502, `ALL.chr<N>.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz`, autosomes 1–22 (https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/) [1] | GRCh37 |
+| genotypes | 1000 Genomes phase 3 release 20130502, `ALL.chr<N>.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz`, autosomes 1–22, and `integrated_call_samples_v3.20130502.ALL.panel` [1]. The v5a files are on the NCBI mirror (https://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20130502/); the EBI directory now lists v5b, and the differences were not assessed | GRCh37 |
 | genetic maps | pyrho per-population maps for the 26 phase 3 populations (https://github.com/popgenmethods/pyrho#human-recombination-maps; Zenodo 10.5281/zenodo.11437540, `hg19_maps.tar.gz`) [2, 3]; each site's cM is linearly interpolated from its own population's map | GRCh37 (hg19) |
-| ancestral alleles | `site.ancestral_state` of the unified tree sequences of 1000 Genomes, HGDP, SGDP and ancient genomes (Zenodo 10.5281/zenodo.5512994) [4], processed by E. Gilbertson's code (https://github.com/erin-n-gilbertson/3DGenome-diversity/blob/main/activeNotebooks/AncestralSequence_trees.ipynb), which also converted the coordinates between GRCh38 and GRCh37 | trees GRCh38; tables used carry GRCh37 positions (with the GRCh38 position alongside) |
+| ancestral alleles | `site.ancestral_state` of the unified tree sequences of 1000 Genomes, HGDP, SGDP and ancient genomes (Zenodo 10.5281/zenodo.5512994) [4], processed by E. Gilbertson's code (https://github.com/erin-n-gilbertson/3DGenome-diversity/blob/main/activeNotebooks/AncestralSequence_trees.ipynb), which also converted the coordinates between GRCh38 and GRCh37. Expected as `chr<N>_ErinG_AA_hg19.tsv.gz` with columns `CHR POS ErinG_ARG_AA hg38_position hg38_REF`. At a VCF site with no ARG ancestral allele, the global 1000 Genomes major allele (from the VCF `AF` field) is used instead (`make_unified_aa_map.py`) | trees GRCh38; tables used carry GRCh37 positions (with the GRCh38 position alongside) |
 | excluded rsIDs | 11,963,907 historical rsIDs that have been merged into other rsIDs and are no longer used, from the NCBI dbSNP `RsMergeArch` table [5]. Records carrying them are removed during VCF conversion. The dbSNP build of the table was not recorded. | |
 
 The simulations use a different map: cosi2 draws each replicate's region from
 `models/test_recom.recom`. The pyrho maps are used only for the empirical
 data.
+
+Pipeline (`run_empirical.py`; each stage resumes where it stopped):
+
+| stage | script | output |
+|---|---|---|
+| maps | `empirical/convert_pyrho_maps.py` | pyrho HapMap-format maps rewritten as `pos chr cM` (values copied as text) |
+| gaps | `empirical/build_gap_mask.py` | intervals > 1 Mb with no map data in any of YRI, CEU, CHB and BEB (19 intervals, 97.4 Mb; `provenance/gaps_hg19.tsv`), dropped identically for every population |
+| ancestral | `empirical/make_unified_aa_map.py` | one ancestral allele per VCF position |
+| tped | `empirical/vcf_to_tped.py` | `vcftools --keep <pop> --min-alleles 2 --max-alleles 2`, no frequency filter; drops excluded rsIDs, duplicate IDs, duplicate positions (the first record is kept) and records with any missing or non-0/1 genotype; renames non-`rs` IDs to `rspos<pos>` |
+| annotate | `empirical/annotate_tped.py` | derived = 1 against the ancestral allele (sites without one are dropped); cM linearly interpolated from the population's own map; sites before or after the map or inside a gap dropped; `.` IDs renamed `rspos<pos>` |
+| stats | `empirical/emp_stats.py` | raw statistics per (target, chromosome); one-population statistics on the target's full site list, XP-EHH on each pair's shared sites (`harmonize.py`), site list applied last |
+| bins | `empirical/build_bins.py` | exact-k tables per target from all 22 autosomes; bins with < 5,000 sites are NaN |
+| normalize | `empirical/normalize.py` | z-scores; `max_xpehh` = maximum of the three per-pair z-scores, joined on variant ID |
+| tables | `empirical/stage_tables.py`, `maf_filter.py` | `<POP>.empirical.2026oct.tsv.gz`, and a version keeping `maf > 0.01` (strict) |
+
+Output columns: `chr pos ID mean_fst deldaf daf maf norm_nsl norm_ihh12
+norm_ihs_binom norm_delihh_binom max_xpehh`, defined as in section 1. The
+genome-wide reference is not neutral: it contains whatever selection the
+genome carries.
+
+Memory: production used 64 GB per stats task and 25 GB per annotate task
+(chr1–2 are the largest), so on a PC set `workers` to what memory allows.
 
 **Populations.** 22 of the 26 phase 3 populations are scored:
 
@@ -234,10 +283,11 @@ target or any of its outgroups is polymorphic there.
 ## 8. Layout
 
 ```
-run.sh, run.py        one-command driver
+run.sh, run.py        one-command driver (run_empirical.py for the empirical pipeline)
 config/               JSON configs
 models/               the 12 cosi2 demographic models (6 models x 3/5 Mb) + test_recom.recom (recombination map)
 pipeline/             statistic and simulation code
+empirical/            1000 Genomes pipeline (run by run_empirical.py) and input download
 env/                  environment build, activation, check
 provenance/           production plans, seeds and kept-replicate lists
 tests/                reproduction test and its reference data

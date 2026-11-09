@@ -1,0 +1,23 @@
+{
+  "_comment": ["Empirical run: 1000 Genomes phase 3 (GRCh37), the 22 scored populations, all autosomes.",
+               "inputs: fetch the public files with empirical/download_inputs.sh; ancestral_dir and",
+               "exclude_rsids are described in README section 7. Memory: production used 64 GB per",
+               "stats task and 25 GB per annotate task; lower workers if a PC has less."],
+  "run_name": "empirical",
+  "output_dir": "runs/empirical",
+  "workers": 4,
+  "inputs": {
+    "vcf_dir": "inputs/1kgp",
+    "panel": "inputs/1kgp/integrated_call_samples_v3.20130502.ALL.panel",
+    "exclude_rsids": "inputs/exclude_rsid.txt",
+    "ancestral_dir": "inputs/ancestral_alleles_hg19",
+    "pyrho_hg19_dir": "inputs/pyrho_hg19"
+  },
+  "targets": ["ACB", "ASW", "ESN", "GWD", "LWK", "MSL", "YRI",
+              "CEU", "FIN", "GBR", "IBS", "TSI",
+              "CDX", "CHB", "CHS", "JPT", "KHV",
+              "BEB", "GIH", "ITU", "PJL", "STU"],
+  "chromosomes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22],
+  "maf001": true,
+  "keep_allele_tpeds": false
+}

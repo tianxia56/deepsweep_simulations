@@ -4,6 +4,7 @@
 # builds or fetches them at pinned commits (see TOOLS.md).
 channels:
   - conda-forge
+  - bioconda
   - nodefaults
 dependencies:
   - python=3.9.23
@@ -24,3 +25,5 @@ dependencies:
   - gsl=2.7
   - wget=1.25.0
   - unzip=6.0
+  # empirical pipeline only: VCF -> TPED
+  - vcftools=0.1.16

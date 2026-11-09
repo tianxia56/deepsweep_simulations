@@ -11,7 +11,7 @@ source "$HERE/activate.sh"
 fail=0
 bad() { echo "FAIL: $*"; fail=1; }
 
-for t in coalescent selscan ihsbin xpehhbin python3; do
+for t in coalescent selscan ihsbin xpehhbin vcftools python3; do
   p=$(command -v "$t" || true)
   [ -n "$p" ] || { bad "$t not on PATH"; continue; }
   case "$p" in "$DEEPSWEEP_ENV_PREFIX"/*) ;; *) bad "$t resolves outside the env: $p" ;; esac
@@ -22,6 +22,8 @@ done
 for t in selscan ihsbin xpehhbin; do
   "$t" --help >/dev/null 2>&1 || bad "$t --help exits $?"
 done
+vt=$(vcftools --version 2>&1 | head -1 || true)
+[ "$vt" = "VCFtools (0.1.16)" ] || bad "vcftools reports '$vt'"
 v=$(selscan --help 2>&1 | grep -o 'selscan v[0-9.]*' | head -1 || true)
 [ "$v" = "selscan v3.0.0" ] || bad "selscan reports '$v'"
 got=$(md5sum "$(command -v selscan)" | cut -d' ' -f1)

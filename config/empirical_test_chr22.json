@@ -1,0 +1,24 @@
+{
+  "_comment": [
+    "Test: one target (YRI) on chr22. Its three outgroups (CEU, CHB, BEB) are processed",
+    "too. Bins come from chr22 alone, so z-scores are NOT the genome-wide ones."
+  ],
+  "run_name": "empirical_test_chr22",
+  "output_dir": "runs/empirical_test_chr22",
+  "workers": 4,
+  "inputs": {
+    "vcf_dir": "inputs/1kgp",
+    "panel": "inputs/1kgp/integrated_call_samples_v3.20130502.ALL.panel",
+    "exclude_rsids": "inputs/exclude_rsid.txt",
+    "ancestral_dir": "inputs/ancestral_alleles_hg19",
+    "pyrho_hg19_dir": "inputs/pyrho_hg19"
+  },
+  "targets": [
+    "YRI"
+  ],
+  "chromosomes": [
+    22
+  ],
+  "maf001": true,
+  "keep_allele_tpeds": false
+}
