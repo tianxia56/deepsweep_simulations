@@ -255,6 +255,12 @@ genome carries.
 very rare variants, some of which may be sequencing errors. To keep the
 signal clean, the empirical tables used in practice keep only sites with
 `maf > 0.01` in the target population (`*.maf001.tsv.gz`).
+
+The filter also brings variant density closer to the model's input budget of
+about 5,000 sites per Mb. After filtering, the seven African populations have
+5,184–6,039 sites/Mb and the other 15 have 2,697–3,588 sites/Mb, so the
+African populations remain above the budget. The tables were kept as they
+are, without a density cutoff.
 - The filter is applied after normalization, so every z-score equals the one
   in the full table at the same site. Scores stay relative to the all-sites
   genome-wide reference, and the bins are not rebuilt from the filtered rows.
