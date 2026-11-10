@@ -229,8 +229,12 @@ Inputs (every one is publicly available):
 | excluded rsIDs | 11,963,907 historical rsIDs that have been merged into other rsIDs and are no longer used, from the NCBI dbSNP `RsMergeArch` table [5]. Records carrying them are removed during VCF conversion. The dbSNP build of the table was not recorded. | |
 
 The simulations use a different map: cosi2 draws each replicate's region from
-`models/test_recom.recom`. The pyrho maps are used only for the empirical
-data.
+`models/test_recom.recom`, a chromosome 1 map from the deCODE
+high-resolution recombination map (https://www.nature.com/articles/ng917z) [6],
+in cosi2's `position rate` format (rate in Morgans per bp, holding until the
+next row): 304,899 intervals over 193.3 Mb, mean 1.342 cM/Mb. The genome build
+of its positions is not recorded. The pyrho maps are used only for the
+empirical data.
 
 Pipeline (`run_empirical.py`; each stage resumes where it stopped):
 
@@ -296,13 +300,14 @@ target or any of its outgroups is polymorphic there.
 3. Kamm, J.A., Spence, J.P., Chan, J. & Song, Y.S. Two-locus likelihoods under variable population size and fine-scale recombination rate estimation. *Genetics* 203, 1381–1399 (2016). doi:10.1534/genetics.115.184820
 4. Wohns, A.W. et al. A unified genealogy of modern and ancient genomes. *Science* 375, eabi8264 (2022). doi:10.1126/science.abi8264. Data: Zenodo, doi:10.5281/zenodo.5512994
 5. NCBI dbSNP, `RsMergeArch` table (merged rsIDs), https://www.ncbi.nlm.nih.gov/snp/
+6. Kong, A. et al. A high-resolution recombination map of the human genome. *Nature Genetics* 31, 241–247 (2002). doi:10.1038/ng917
 
 ## 8. Layout
 
 ```
 run.sh, run.py        one-command driver (run_empirical.py for the empirical pipeline)
 config/               JSON configs
-models/               the 12 cosi2 demographic models (6 models x 3/5 Mb) + test_recom.recom (recombination map)
+models/               the 12 cosi2 demographic models (6 models x 3/5 Mb) + test_recom.recom (recombination map, deCODE chr1 [6])
 pipeline/             statistic and simulation code
 empirical/            1000 Genomes pipeline (run by run_empirical.py) and input download
 env/                  environment build, activation, check
