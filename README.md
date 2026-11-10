@@ -229,8 +229,8 @@ Inputs (every one is publicly available):
 | excluded rsIDs | 11,963,907 historical rsIDs that have been merged into other rsIDs and are no longer used, from the NCBI dbSNP `RsMergeArch` table [5]. Records carrying them are removed during VCF conversion. The dbSNP build of the table was not recorded. | |
 
 The simulations use a different map: cosi2 draws each replicate's region from
-`models/test_recom.recom`, chromosome 1 of the deCODE recombination map
-(https://www.nature.com/articles/ng917z) [6]. The pyrho maps are used only for
+`models/test_recom.recom`, chromosome 1 of the recombination map of Kong et al.
+(2002) (https://www.nature.com/articles/ng917z) [6]. The pyrho maps are used only for
 the empirical data.
 
 Pipeline (`run_empirical.py`; each stage resumes where it stopped):
@@ -304,7 +304,7 @@ target or any of its outgroups is polymorphic there.
 ```
 run.sh, run.py        one-command driver (run_empirical.py for the empirical pipeline)
 config/               JSON configs
-models/               the 12 cosi2 demographic models (6 models x 3/5 Mb) + test_recom.recom (recombination map, deCODE chr1 [6])
+models/               the 12 cosi2 demographic models (6 models x 3/5 Mb) + test_recom.recom (recombination map, chr1, Kong et al. 2002 [6])
 pipeline/             statistic and simulation code
 empirical/            1000 Genomes pipeline (run by run_empirical.py) and input download
 env/                  environment build, activation, check
