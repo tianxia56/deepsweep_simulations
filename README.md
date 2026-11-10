@@ -229,12 +229,9 @@ Inputs (every one is publicly available):
 | excluded rsIDs | 11,963,907 historical rsIDs that have been merged into other rsIDs and are no longer used, from the NCBI dbSNP `RsMergeArch` table [5]. Records carrying them are removed during VCF conversion. The dbSNP build of the table was not recorded. | |
 
 The simulations use a different map: cosi2 draws each replicate's region from
-`models/test_recom.recom`, a chromosome 1 map from the deCODE
-high-resolution recombination map (https://www.nature.com/articles/ng917z) [6],
-in cosi2's `position rate` format (rate in Morgans per bp, holding until the
-next row): 304,899 intervals over 193.3 Mb, mean 1.342 cM/Mb. The genome build
-of its positions is not recorded. The pyrho maps are used only for the
-empirical data.
+`models/test_recom.recom`, chromosome 1 of the deCODE recombination map
+(https://www.nature.com/articles/ng917z) [6]. The pyrho maps are used only for
+the empirical data.
 
 Pipeline (`run_empirical.py`; each stage resumes where it stopped):
 
