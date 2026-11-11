@@ -149,17 +149,6 @@ Seeded batches were oversampled and then pruned to fill per-DAF-bin quotas,
 so a batch kept fewer replicates than it simulated. The kept list is what
 defines the corpus.
 
-The production XP-EHH bin tables were not written by
-`01_make_neutral_bins.py` itself. They were rebuilt on 2026-10-16, when
-target-monomorphic sites were kept (k = 0 and k = n_hap), from pools
-regenerated at the same seeds. The rebuilt pools match what `01` writes now:
-`tests/reproduce_production.sh` finds them identical for the replicates it
-checks.
-
-One caveat for the reference and neutral stages: which attempt succeeds
-depends on the 120 s timeout. On a slower machine a replicate that finished
-in production could time out and be reseeded. The seed used is always
-recorded, so any such difference shows up in the outputs.
 
 ## 5. Verification
 
