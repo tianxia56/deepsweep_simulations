@@ -1,9 +1,9 @@
-# DeepSweep simulations: selection statistics for neutral and sweep replicates
+# DeepSweep simulations: selection statistics for simulated neutral and sweep replicates
 
-This repository records exactly how the simulated training data were made,
-and lets anyone remake them on a Linux machine. One command builds the tools
+This repository records how the simulated training data were made,
+and replicable on a Linux machine. One command builds the tools
 from pinned sources, simulates neutral and selected-sweep replicates with
-cosi2, computes nine CMS component statistics per site, normalizes them
+cosi2, computes nine statistics per site, normalizes them
 against neutral reference bins, and writes zipped per-replicate tables.
 
 ```bash
