@@ -4,7 +4,7 @@ This repository records how the simulated training data were made,
 and replicable on a Linux machine. One command builds the tools
 from pinned sources, simulates neutral and selected-sweep replicates with
 cosi2, computes nine statistics per site, normalizes them
-against neutral reference bins, and writes zipped per-replicate tables.
+against neutral reference bins, and writes zipped per-replicate tables. The full set of simulations publicly available for the community’s use at https://doi.org/10.7910/DVN/BYLW28.
 
 ```bash
 git clone <this repo> && cd deepsweep_simulations
